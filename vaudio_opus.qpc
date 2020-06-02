@@ -1,0 +1,68 @@
+// ---------------------------------------------------------------
+// vaudio_opus.qpc
+// ---------------------------------------------------------------
+macro PROJECT_NAME "vaudio_opus"
+
+macro SRCDIR "../../.."
+macro OUTBINDIR "$BINDEFAULT"
+
+include "$SRCDIR/_qpc_scripts/source_dll_base.qpc"
+
+configuration
+{
+	general
+	{
+		include_directories
+		{
+			"../frame_encoder"
+			"../opus"
+			"../../../public"
+			"../../../public/tier1"
+			"../.."
+			"../../../common"
+			"./source/opus"
+			"./source/opus/include"
+			"./source/opus/silk"
+			"./source/opus/celt"
+			"../../audio/public"
+		}
+		
+		library_directories
+		{
+			"source/osx"
+		}
+	}
+	
+	compiler
+	{
+		preprocessor_definitions
+		{
+			"OPUS_EXPORTS"
+		}
+	}
+	
+	linker
+	{
+		libraries
+		{
+			"iconv" [$OSX]
+			"source/opus/win32/VS2015/Win32/Release/opus" [$WINDOWS]
+		}
+	}
+}
+
+files
+{
+	folder "Source Files"
+	{
+		//"$SRCDIR/tier1/interface.cpp"
+		"../frame_encoder/voice_codec_frame.cpp"
+		"voiceencoder_opus.cpp"
+	}
+
+	folder "Header Files"
+	{
+		"$SRCDIR/public/tier1/interface.h"
+		"$SRCDIR/public/vaudio/ivaudio.h"
+	}
+}
